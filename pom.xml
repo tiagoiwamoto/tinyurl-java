@@ -17,7 +17,7 @@
     <description>Encurtador de URLs (clone do phpFaber TinyLink) em Spring Boot 4</description>
 
     <properties>
-        <java.version>27</java.version>
+        <java.version>25</java.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.48</lombok.version>
         <jjwt.version>0.12.6</jjwt.version>
