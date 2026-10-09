@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '/api'
+  apiUrl: 'https://api.encurtador-link.kamehouse.com.br/api'
 };
