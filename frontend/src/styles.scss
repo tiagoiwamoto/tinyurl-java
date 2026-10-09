@@ -1,0 +1,32 @@
+.link-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--divider-color, #edf1f7);
+    text-align: left;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.text-success {
+  color: #00d68f;
+}
+
+.text-danger {
+  color: #ff3d71;
+}
