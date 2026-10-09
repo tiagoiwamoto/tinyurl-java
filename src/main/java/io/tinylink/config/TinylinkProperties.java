@@ -14,4 +14,13 @@ public record TinylinkProperties(
         @DefaultValue("10") int linkLength,
         @DefaultValue("10") int pageSize,
         @DefaultValue("") String adHtml) {
+
+    public TinylinkProperties {
+        if (baseUrl != null && !baseUrl.matches("(?i)^https?://.*")) {
+            baseUrl = "https://" + baseUrl;
+        }
+        if (baseUrl != null && baseUrl.endsWith("/")) {
+            baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+        }
+    }
 }

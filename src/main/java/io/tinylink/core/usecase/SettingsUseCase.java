@@ -16,8 +16,13 @@ public class SettingsUseCase {
 
     @Transactional
     public AppSettings current() {
-        return settingsRepository.findById(AppSettings.SINGLETON_ID)
+        AppSettings settings = settingsRepository.findById(AppSettings.SINGLETON_ID)
                 .orElseGet(this::seedDefaults);
+        String baseUrl = settings.getBaseUrl();
+        if (baseUrl != null && !baseUrl.matches("(?i)^https?://.*")) {
+            settings.setBaseUrl("https://" + baseUrl);
+        }
+        return settings;
     }
 
     @Transactional
