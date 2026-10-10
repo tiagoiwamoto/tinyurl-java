@@ -36,6 +36,14 @@ export interface StatsView {
   recentHits: RecentHit[];
 }
 
+export interface ResolveView {
+  code: string;
+  fullUrl: string;
+  showSplash: boolean;
+  refreshRateSeconds: number;
+  adHtml?: string;
+}
+
 export interface AuthResponse {
   token: string;
   username: string;

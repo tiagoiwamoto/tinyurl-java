@@ -4,41 +4,32 @@ import io.tinylink.core.entity.AppSettings;
 import io.tinylink.core.entity.ShortLink;
 import io.tinylink.core.usecase.ResolveLinkUseCase;
 import io.tinylink.core.usecase.SettingsUseCase;
+import io.tinylink.entrypoint.rest.dto.ResolveResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-
-@Controller
+@RestController
+@RequestMapping("/api/resolve")
 @RequiredArgsConstructor
-public class RedirectController {
+public class ResolveController {
 
     private final ResolveLinkUseCase resolveLinkUseCase;
     private final SettingsUseCase settingsUseCase;
 
     @GetMapping("/{code:[a-zA-Z0-9]+}")
-    public Object follow(@PathVariable String code, HttpServletRequest request, Model model) {
+    public ResolveResponse resolve(@PathVariable String code, HttpServletRequest request) {
         ShortLink link = resolveLinkUseCase.resolve(code, clientIp(request));
-
-        if (!link.isShowSplash()) {
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create(link.getFullUrl()))
-                    .build();
-        }
-
         AppSettings settings = settingsUseCase.current();
-        model.addAttribute("fullUrl", link.getFullUrl());
-        model.addAttribute("refreshRate", settings.getRefreshRateSeconds());
-        model.addAttribute("adHtml", settings.getAdHtml());
-        model.addAttribute("baseUrl", settings.getBaseUrl());
-        model.addAttribute("totalLinks", resolveLinkUseCase.totalLinks());
-        return "splash";
+        return new ResolveResponse(
+                link.getCode(),
+                link.getFullUrl(),
+                link.isShowSplash(),
+                settings.getRefreshRateSeconds(),
+                settings.getAdHtml());
     }
 
     private String clientIp(HttpServletRequest request) {

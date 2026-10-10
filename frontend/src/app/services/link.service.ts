@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LinkForm, LinkView, PageResponse, StatsView } from '../models/link.model';
+import { LinkForm, LinkView, PageResponse, ResolveView, StatsView } from '../models/link.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +43,9 @@ export class LinkService {
 
   stats(): Observable<StatsView> {
     return this.http.get<StatsView>(`${this.baseUrl}/stats`);
+  }
+
+  resolver(code: string): Observable<ResolveView> {
+    return this.http.get<ResolveView>(`${environment.apiUrl}/resolve/${code}`);
   }
 }

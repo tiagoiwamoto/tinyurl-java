@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LinksComponent } from './pages/links/links.component';
+import { RedirectComponent } from './pages/redirect/redirect.component';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
@@ -19,5 +20,6 @@ export const routes: Routes = [
       { path: 'links', component: LinksComponent }
     ]
   },
+  { path: ':code', component: RedirectComponent },
   { path: '**', redirectTo: '/dashboard' }
 ];
