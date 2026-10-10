@@ -10,7 +10,7 @@ import { ResolveView } from '../../models/link.model';
   template: `
     <nb-layout>
       <nb-layout-column class="redirect-column">
-        <nb-card class="redirect-card">
+        <nb-card class="redirect-card" [class.animate__animated]="saindo" [class.animate__zoomOut]="saindo">
           @if (erro) {
             <nb-card-header class="text-center">
               <h4 class="m-0">Link não encontrado</h4>
@@ -75,13 +75,14 @@ export class RedirectComponent implements OnInit, OnDestroy {
   resolve: ResolveView | null = null;
   segundos = 0;
   erro = false;
+  saindo = false;
 
   ngOnInit(): void {
     this.code = this.route.snapshot.paramMap.get('code') ?? '';
     this.linkService.resolver(this.code).subscribe({
       next: resolve => {
         if (!resolve.showSplash) {
-          window.location.href = resolve.fullUrl;
+          this.redirecionar(resolve.fullUrl);
           return;
         }
         this.resolve = resolve;
@@ -100,8 +101,13 @@ export class RedirectComponent implements OnInit, OnDestroy {
     this.segundos--;
     if (this.segundos <= 0) {
       this.pararTimer();
-      window.location.href = this.resolve!.fullUrl;
+      this.redirecionar(this.resolve!.fullUrl);
     }
+  }
+
+  private redirecionar(url: string): void {
+    this.saindo = true;
+    setTimeout(() => window.location.href = url, 700);
   }
 
   private pararTimer(): void {
