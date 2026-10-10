@@ -1,6 +1,6 @@
 package io.tinylink.entrypoint.rest;
 
-import io.tinylink.core.usecase.SettingsUseCase;
+import io.tinylink.config.TinylinkProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class LegacyRedirectController {
 
-    private final SettingsUseCase settingsUseCase;
+    private final TinylinkProperties properties;
 
     @GetMapping("/{code:[a-zA-Z0-9]+}")
     public ResponseEntity<Void> follow(@PathVariable String code) {
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(settingsUseCase.current().getBaseUrl() + "/" + code))
+                .location(URI.create(properties.frontendUrl() + "/" + code))
                 .build();
     }
 }

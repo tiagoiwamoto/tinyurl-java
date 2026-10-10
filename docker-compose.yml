@@ -9,6 +9,7 @@ services:
       POSTGRES_USERNAME: tinylink
       POSTGRES_PASSWORD: tinylink
       BASE_URL: https://encurtador-link.kamehouse.com.br
+      FRONTEND_URL: https://encurtador-link.kamehouse.com.br
       TINYLINK_ADMIN_USER: admin
       TINYLINK_ADMIN_PASSWORD: admin
       TINYLINK_JWT_SECRET: change-me-change-me-change-me-32b!

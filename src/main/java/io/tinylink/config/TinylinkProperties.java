@@ -10,6 +10,7 @@ public record TinylinkProperties(
         @DefaultValue("change-me-change-me-change-me-32b!") String jwtSecret,
         @DefaultValue("1440") long jwtExpirationMinutes,
         @DefaultValue("http://localhost:8080") String baseUrl,
+        @DefaultValue("") String frontendUrl,
         @DefaultValue("3") int refreshRateSeconds,
         @DefaultValue("10") int linkLength,
         @DefaultValue("10") int pageSize,
@@ -21,6 +22,16 @@ public record TinylinkProperties(
         }
         if (baseUrl != null && baseUrl.endsWith("/")) {
             baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+        }
+        if (frontendUrl == null || frontendUrl.isBlank()) {
+            frontendUrl = baseUrl;
+        } else {
+            if (!frontendUrl.matches("(?i)^https?://.*")) {
+                frontendUrl = "https://" + frontendUrl;
+            }
+            if (frontendUrl.endsWith("/")) {
+                frontendUrl = frontendUrl.substring(0, frontendUrl.length() - 1);
+            }
         }
     }
 }
